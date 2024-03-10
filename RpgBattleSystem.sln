@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RpgBattleSystem", "RpgBattleSystem\RpgBattleSystem.csproj", "{CC78CB86-5167-4F41-AE64-3B09117B3388}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plotting", "Plotting\Plotting.csproj", "{776106A5-8D48-4A38-BE16-9FC30616B02C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC78CB86-5167-4F41-AE64-3B09117B3388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC78CB86-5167-4F41-AE64-3B09117B3388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC78CB86-5167-4F41-AE64-3B09117B3388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC78CB86-5167-4F41-AE64-3B09117B3388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{776106A5-8D48-4A38-BE16-9FC30616B02C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{776106A5-8D48-4A38-BE16-9FC30616B02C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{776106A5-8D48-4A38-BE16-9FC30616B02C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{776106A5-8D48-4A38-BE16-9FC30616B02C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
