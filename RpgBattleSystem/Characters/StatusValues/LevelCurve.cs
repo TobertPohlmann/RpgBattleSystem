@@ -6,14 +6,14 @@ public class LevelCurve
     private int _y100;
     private int _nonLinearity;
     private CurveType _curveType;
-    
+    private int _softCapLevel;
     public int[] Curve { get; private set; }
 
-    public LevelCurve(int yOffset, int yMaximum, int nonLinearity, CurveType curveType = CurveType.Exponential)
+    public LevelCurve(int yOffset, int yMaximum, int nonLinearity, CurveType curveType = CurveType.LateGrowth, int softCapLevel = 100)
     {
         if (nonLinearity < 0 || nonLinearity > 100)
         {
-            throw new Exception("Konvex parameter must be in between -100 and 100.");
+            throw new Exception("Nonlinearity parameter must be in between 0 and 100.");
         }
 
         if (yOffset < 0 || yMaximum <= yOffset)
@@ -25,6 +25,7 @@ public class LevelCurve
         _y100 = yMaximum;
         _nonLinearity = nonLinearity;
         _curveType = curveType;
+        _softCapLevel = softCapLevel;
         CalculateCurve();
     }
 
@@ -37,6 +38,11 @@ public class LevelCurve
     {
         Func<int, int> funct = LevelCurveFunction();
 
+        if (_softCapLevel < 100)
+        {
+            funct = SoftCap(funct);
+        }
+        
         int[] X = Enumerable.Range(1, 100).ToArray();
         Curve = X.Select(x => funct(x)).ToArray();
     }
@@ -45,9 +51,10 @@ public class LevelCurve
     {
         Func<int, double> unscaledFunct = _curveType switch
         {
-            CurveType.Exponential => MakeLevelCurveFrom(LateGrowth()),
-            CurveType.Inflecting => MakeLevelCurveFrom(InflectingFunction())
-//            CurveType.Inflecting => MakeLevelCurveFrom(InverseInflectingFunction())
+            CurveType.LateGrowth => LateGrowth(),
+            CurveType.EarlyGrowth => EarlyGrowth(),
+            CurveType.MidLevelGrowth => MidLevelGrowth(),
+            CurveType.Linear => LinearGrowth()
 
         };
 
@@ -61,46 +68,51 @@ public class LevelCurve
         return x => amplitude * func(x) + offset;
     }
 
-    private Func<int, double> MakeLevelCurveFrom(Func<int, double> nonLinFunct)
-    {
-        double nonLinPortion = Math.Abs(_nonLinearity) / 100.0;
-        return x => (1-nonLinPortion)*x + nonLinPortion*nonLinFunct(x);
-    }
-
-    private Func<int, double> CubicFunction()
-    {
-        Func<int, double> cubicFunction = x => Math.Pow(x, -3);
-        return NormalizeToRange(cubicFunction);
-    }
-
     private Func<int, double> FermiFunction(double mu, double kbT, double A, double C=0)
     {
-        return x => A / (Math.Exp(-(x - mu) / kbT) + 1) + C;
+        return x => A*(1 / (Math.Exp(-(x - mu) / kbT) + 1) + C);
     }
 
-    private Func<int, double> InflectingFunction()
+    private Func<int, double> MidLevelGrowth()
     {
-        Func<int, double> nonLinFunction = _nonLinearity switch
-        {
-            >= 0 => x => Math.Pow((x-50),5),
-            _ => x => Math.Atan(0.2*Math.Pow(x-50,1))+_y100/2
-        };
-        return NormalizeToRange(nonLinFunction);
+        Func<int, double> scaleKbt = x => Math.Pow(x, 2);
+        double kbT = scaleKbt(_nonLinearity) * 40 / scaleKbt(100) + 3;
+
+        return FermiFunction(50, kbT, 1, 0);
+    }
+    
+    private Func<int, double> EarlyGrowth()
+    {
+        Func<int, double> scaleKbt = x => Math.Pow(x, 1.8);
+        double kbT = scaleKbt(_nonLinearity) * 80 / scaleKbt(100) + 5;
+        
+        return FermiFunction(0, kbT, 2, 0);
     }
     
     private Func<int, double> LateGrowth()
     {
-        double nonLinPortion = Math.Abs(_nonLinearity) / 100.0;
-        Func<int, double> nonLinFunction = _nonLinearity switch
-        {
-            >= 0 => x => Math.Exp(0.046 * Math.Pow(x,1+nonLinPortion/8)) - 1,
-            _ => x => 1/Math.Exp(0.046 * Math.Pow(x,1+nonLinPortion/8))
-        };
-        return NormalizeToRange(nonLinFunction);
+        Func<int, double> scaleKbt = x => Math.Pow(x, 1.8);
+        double kbT = scaleKbt(_nonLinearity) * 80 / scaleKbt(100) + 15;
+        return FermiFunction(100, kbT, 100, 0);
     }
     
+    private Func<int, double> LinearGrowth()
+    {
+        return x => x;
+    }
+
+    private Func<int, int> SoftCap(Func<int, int> func)
+    {
+        int kbT = 4;
+        int valueAtSoftCap = func(_softCapLevel + kbT);
+        double levelProgressionLeft = (100-_softCapLevel) / 100.0;
+        
+        Func<int,int> afterSoftCap = x => (int)(valueAtSoftCap+0.15*levelProgressionLeft*valueAtSoftCap/(100-_softCapLevel)*(x-_softCapLevel));
+        return x => (int)(FermiFunction(_softCapLevel-kbT/2, kbT, 1, 0)(x) * afterSoftCap(x) +
+                          (1.0 - FermiFunction(_softCapLevel-kbT/2, kbT, 1, 0)(x)) * func(x));
+    }
 }
 
 public enum CurveType{
-    Exponential, Inflecting 
+    Linear, LateGrowth, EarlyGrowth, MidLevelGrowth 
 }
