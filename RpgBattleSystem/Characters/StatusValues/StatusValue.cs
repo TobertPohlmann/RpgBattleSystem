@@ -2,21 +2,21 @@ namespace RpgBattleSystem.Characters;
 
 public class StatusValue
 {
-    private Dictionary<Attribute, LevelCurve> _levelCurves = new();
+    public Dictionary<Attribute, LevelCurve> LevelCurves = new();
 
     public StatusValue WithLevelCurveFor(Attribute attribute, LevelCurve levelCurve)
     {
-        _levelCurves[attribute] = levelCurve;
+        LevelCurves[attribute] = levelCurve;
         return this;
     }
 
-    private int GetCharacterBaseValue(CharacterBase characterBase)
+    public int GetCharacterBaseValue(CharacterBase characterBase)
     {
         int baseValue = 0;
-        foreach (Attribute attribute in _levelCurves.Keys)
+        foreach (Attribute attribute in LevelCurves.Keys)
         {
             int level = characterBase.GetLevelFor(attribute);
-            baseValue += _levelCurves[attribute].GetValueForLevel(level);
+            baseValue += LevelCurves[attribute].GetValueForLevel(level);
         }
 
         return baseValue;

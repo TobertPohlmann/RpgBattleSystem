@@ -4,7 +4,7 @@ public class LevelCurve
 {
     private int _y1;
     private int _y100;
-    private int _nonLinearity;
+    private int _linearity;
     private CurveType _curveType;
     private int _softCapLevel;
     public int[] Curve { get; private set; }
@@ -23,7 +23,7 @@ public class LevelCurve
 
         _y1 = yOffset;
         _y100 = yMaximum;
-        _nonLinearity = nonLinearity;
+        _linearity = 100-nonLinearity;
         _curveType = curveType;
         _softCapLevel = softCapLevel;
         CalculateCurve();
@@ -37,11 +37,6 @@ public class LevelCurve
     private void CalculateCurve()
     {
         Func<int, int> funct = LevelCurveFunction();
-
-        if (_softCapLevel < 100)
-        {
-            funct = SoftCap(funct);
-        }
         
         int[] X = Enumerable.Range(1, 100).ToArray();
         Curve = X.Select(x => funct(x)).ToArray();
@@ -57,6 +52,11 @@ public class LevelCurve
             CurveType.Linear => LinearGrowth()
 
         };
+        
+        if (_softCapLevel < 100)
+        {
+            unscaledFunct = SoftCap(unscaledFunct);
+        }
 
         return x => (int)NormalizeToRange(unscaledFunct,_y1,_y100)(x);
     }
@@ -76,7 +76,7 @@ public class LevelCurve
     private Func<int, double> MidLevelGrowth()
     {
         Func<int, double> scaleKbt = x => Math.Pow(x, 2);
-        double kbT = scaleKbt(_nonLinearity) * 40 / scaleKbt(100) + 3;
+        double kbT = scaleKbt(_linearity) * 40 / scaleKbt(100) + 3;
 
         return FermiFunction(50, kbT, 1, 0);
     }
@@ -84,7 +84,7 @@ public class LevelCurve
     private Func<int, double> EarlyGrowth()
     {
         Func<int, double> scaleKbt = x => Math.Pow(x, 1.8);
-        double kbT = scaleKbt(_nonLinearity) * 80 / scaleKbt(100) + 5;
+        double kbT = scaleKbt(_linearity) * 80 / scaleKbt(100) + 5;
         
         return FermiFunction(0, kbT, 2, 0);
     }
@@ -92,7 +92,7 @@ public class LevelCurve
     private Func<int, double> LateGrowth()
     {
         Func<int, double> scaleKbt = x => Math.Pow(x, 1.8);
-        double kbT = scaleKbt(_nonLinearity) * 80 / scaleKbt(100) + 15;
+        double kbT = scaleKbt(_linearity) * 80 / scaleKbt(100) + 15;
         return FermiFunction(100, kbT, 100, 0);
     }
     
@@ -101,15 +101,15 @@ public class LevelCurve
         return x => x;
     }
 
-    private Func<int, int> SoftCap(Func<int, int> func)
+    private Func<int, double> SoftCap(Func<int, double> func)
     {
         int kbT = 4;
-        int valueAtSoftCap = func(_softCapLevel + kbT);
+        double valueAtSoftCap = func(_softCapLevel + kbT);
         double levelProgressionLeft = (100-_softCapLevel) / 100.0;
         
-        Func<int,int> afterSoftCap = x => (int)(valueAtSoftCap+0.15*levelProgressionLeft*valueAtSoftCap/(100-_softCapLevel)*(x-_softCapLevel));
-        return x => (int)(FermiFunction(_softCapLevel-kbT/2, kbT, 1, 0)(x) * afterSoftCap(x) +
-                          (1.0 - FermiFunction(_softCapLevel-kbT/2, kbT, 1, 0)(x)) * func(x));
+        Func<int,double> afterSoftCap = x => (valueAtSoftCap+0.15*levelProgressionLeft*valueAtSoftCap/(100-_softCapLevel)*(x-_softCapLevel));
+        return x => FermiFunction(_softCapLevel-kbT/2, kbT, 1, 0)(x) * afterSoftCap(x) +
+                          (1.0 - FermiFunction(_softCapLevel-kbT/2, kbT, 1, 0)(x)) * func(x);
     }
 }
 

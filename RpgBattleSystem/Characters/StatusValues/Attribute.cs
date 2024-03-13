@@ -2,5 +2,5 @@ namespace RpgBattleSystem.Characters;
 
 public enum Attribute
 {
-    Robustness,Strength,Dexterity,Focus,Endurance,Immunity,Speed
+    Vitality,Strength,Dexterity,Focus,Endurance,Immunity,Swiftness
 }

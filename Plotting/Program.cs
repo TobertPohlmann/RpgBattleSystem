@@ -5,12 +5,9 @@ using RpgBattleSystem.Characters;
 
 Console.WriteLine();
 
-var levelFunction = new LevelCurve(20,150,10);
 
-List<int[]> levelFunctions = new();
-for (int i = 0; i <= 100; i += 20)
+foreach (Status status in Enum.GetValues(typeof(Status)))
 {
-    levelFunctions.Add((new LevelCurve(0,150,i,CurveType.LateGrowth,70)).Curve);
+    LevelCurvePlotter.PlotStatusValue(status);
 }
 
-LevelCurvePlotter.PlotAllFigures(levelFunctions);
