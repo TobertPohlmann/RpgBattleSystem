@@ -21,5 +21,4 @@ public class StatusValue
 
         return baseValue;
     }
-
 }

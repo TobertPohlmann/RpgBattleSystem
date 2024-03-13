@@ -6,7 +6,8 @@ public class CharacterBase
 
     private BoundedValue _level = new(1,1,200);
     private Dictionary<Attribute,BoundedValue> _attributeLevels = new ();
-    
+    private Dictionary<Status, StatusValue> _statusValues = new();
+
     public CharacterBase(string name)
     {
         Name = name;
@@ -14,6 +15,12 @@ public class CharacterBase
         {
             _attributeLevels[attribute] = new(1);
         }
+
+        foreach (Status status in Enum.GetValues(typeof(Status)))
+        {
+            _statusValues[status] = StatusValueFactory.GetStatusValueOf(status);
+        }
+        
     }
 
     public int GetLevel()
@@ -24,6 +31,11 @@ public class CharacterBase
     public int GetLevelFor(Attribute attribute)
     {
         return _attributeLevels[attribute].CurrentValue;
+    }
+
+    public int GetStatusValueFor(Status status)
+    {
+        return _statusValues[status].GetCharacterBaseValue(this);
     }
 
     public void IncreaseLevelFor(Attribute attribute,int increment)

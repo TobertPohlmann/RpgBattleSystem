@@ -6,15 +6,20 @@ public class Character
     public int Health;
     public CharacterEquipment Equipment { get; }
 
-    public int PhysicalDefense
+    public int StrikeDefense
     {
-        get { return 0; }
+        get { return GetTotalStatusValueFor(Status.StrikeDefense); }
+    }
+
+    private int GetTotalStatusValueFor(Status status)
+    {
+        return Base.GetStatusValueFor(Status.StrikeDefense);
     }
     
     public Character(string name)
     {
         Base = new(name);
-
+        Health = Base.GetStatusValueFor(Status.MaxHealth);
     }
     
 }

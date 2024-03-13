@@ -34,7 +34,7 @@ public class StatusValueFactory
         StatusValue statusValue  = new();
         return statusValue
                 .WithLevelCurveFor(Attribute.Strength,
-                    new LevelCurve(0, 500, 50, CurveType.LateGrowth, 70));
+                    new LevelCurve(10, 500, 50, CurveType.LateGrowth, 70));
     }
     
     private static StatusValue GetTechniqueStatusValue()
@@ -42,7 +42,7 @@ public class StatusValueFactory
         StatusValue statusValue = new();
         return statusValue
             .WithLevelCurveFor(Attribute.Dexterity,
-                new LevelCurve(0, 500, 50, CurveType.LateGrowth, 70));
+                new LevelCurve(10, 500, 50, CurveType.LateGrowth, 70));
     }
     
     private static StatusValue GetPrecisionStatusValue()
@@ -50,7 +50,7 @@ public class StatusValueFactory
         StatusValue statusValue = new();
         return statusValue
             .WithLevelCurveFor(Attribute.Focus,
-                new LevelCurve(0, 500, 50, CurveType.LateGrowth, 70));
+                new LevelCurve(10, 500, 50, CurveType.LateGrowth, 70));
     }
     
     private static StatusValue GetStrikeDefenseStatusValue()
@@ -62,7 +62,7 @@ public class StatusValueFactory
             .WithLevelCurveFor(Attribute.Strength,
                 new LevelCurve(0, 130, 0, CurveType.Linear))
             .WithLevelCurveFor(Attribute.Immunity,
-                new LevelCurve(0, 300, 0, CurveType.Linear));
+                new LevelCurve(10, 300, 0, CurveType.Linear));
     }
     
     private static StatusValue GetCutDefenseStatusValue()
@@ -74,7 +74,7 @@ public class StatusValueFactory
             .WithLevelCurveFor(Attribute.Focus,
                 new LevelCurve(0, 130, 0, CurveType.Linear))
             .WithLevelCurveFor(Attribute.Immunity,
-                new LevelCurve(0, 300, 0, CurveType.Linear));
+                new LevelCurve(10, 300, 0, CurveType.Linear));
     }
     
     private static StatusValue GetPierceDefenseStatusValue()
@@ -86,7 +86,7 @@ public class StatusValueFactory
             .WithLevelCurveFor(Attribute.Focus,
                 new LevelCurve(0, 130, 0, CurveType.Linear))
             .WithLevelCurveFor(Attribute.Immunity,
-                new LevelCurve(0, 300, 0, CurveType.Linear));
+                new LevelCurve(10, 300, 0, CurveType.Linear));
     }
     
     private static StatusValue GetPoisonResistanceStatusValue()
@@ -96,7 +96,7 @@ public class StatusValueFactory
             .WithLevelCurveFor(Attribute.Endurance,
                 new LevelCurve(0, 100, 20, CurveType.Linear))
             .WithLevelCurveFor(Attribute.Immunity,
-                new LevelCurve(0, 400, 60, CurveType.EarlyGrowth));
+                new LevelCurve(10, 400, 60, CurveType.EarlyGrowth));
     }
     
     private static StatusValue GetHeatResistanceStatusValue()
@@ -106,7 +106,7 @@ public class StatusValueFactory
             .WithLevelCurveFor(Attribute.Endurance,
                 new LevelCurve(0, 70, 0, CurveType.Linear))
             .WithLevelCurveFor(Attribute.Immunity,
-                new LevelCurve(0, 300, 50, CurveType.MidLevelGrowth))            
+                new LevelCurve(10, 300, 50, CurveType.MidLevelGrowth))            
             .WithLevelCurveFor(Attribute.Strength,
                 new LevelCurve(0, 130, 40, CurveType.MidLevelGrowth));
     }
@@ -118,7 +118,7 @@ public class StatusValueFactory
             .WithLevelCurveFor(Attribute.Endurance,
                 new LevelCurve(0, 70, 20, CurveType.Linear))
             .WithLevelCurveFor(Attribute.Immunity,
-                new LevelCurve(0, 300, 50, CurveType.MidLevelGrowth))
+                new LevelCurve(10, 300, 50, CurveType.MidLevelGrowth))
             .WithLevelCurveFor(Attribute.Focus,
                 new LevelCurve(0, 130, 40, CurveType.MidLevelGrowth));
     }
@@ -128,7 +128,7 @@ public class StatusValueFactory
         StatusValue statusValue = new();
         return statusValue
             .WithLevelCurveFor(Attribute.Endurance,
-                new LevelCurve(0, 700, 60, CurveType.EarlyGrowth));
+                new LevelCurve(200, 700, 60, CurveType.EarlyGrowth));
     }
     
     private static StatusValue GetSpeedStatusValue()
@@ -136,7 +136,7 @@ public class StatusValueFactory
         StatusValue statusValue = new();
         return statusValue
             .WithLevelCurveFor(Attribute.Swiftness,
-                new LevelCurve(0, 430, 40, CurveType.LateGrowth, softCapLevel:75))
+                new LevelCurve(10, 430, 40, CurveType.LateGrowth, softCapLevel:75))
             .WithLevelCurveFor(Attribute.Dexterity,
                 new LevelCurve(0, 70, 0, CurveType.Linear));
 
