@@ -12,6 +12,14 @@ public class LevelCurvePlotter
     private static Title _title = Title.init(Text: "Level Curve");
     private static Layout _layout = Layout.init<IConvertible>(Title: _title, PlotBGColor: Color.fromString("#e5ecf6"));
 
+    public static void PlotAll()
+    {
+        foreach (Status status in Enum.GetValues(typeof(Status)))
+        {
+            PlotStatusValue(status);
+        }
+    }
+    
     private static LinearAxis _xAxis =
         LinearAxis.init<IConvertible, IConvertible, IConvertible, IConvertible, IConvertible, IConvertible>(
             Title: Title.init("Level"),

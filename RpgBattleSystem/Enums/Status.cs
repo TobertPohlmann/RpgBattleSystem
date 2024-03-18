@@ -2,8 +2,8 @@ namespace RpgBattleSystem.Characters;
 
 public enum Status
 {
-    MaxHealth,StrikeForce,Technique,Precision,
+    MaxHealth,EquipLoad,Speed,
+    StrikeForce,Technique,Precision,
     StrikeDefense,CutDefense,PierceDefense,
     PoisonResistance,HeatResistance,ColdResistance,
-    EquipLoad,Speed
 }

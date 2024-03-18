@@ -14,12 +14,17 @@ public record CharacterEquipment
 
     public int GetTotalBonusFor(Status status)
     {
-        return Weapon.GetBonusFor(status) +
-               Helmet.GetBonusFor(status) +
-               Chest.GetBonusFor(status) +
-               Legs.GetBonusFor(status) +
-               Accessory1.GetBonusFor(status) +
-               Accessory2.GetBonusFor(status) +
-               Accessory3.GetBonusFor(status);
+        return GetBonusOf(Weapon, status) +
+               GetBonusOf(Helmet, status) +
+               GetBonusOf(Chest, status) +
+               GetBonusOf(Legs, status) +
+               GetBonusOf(Accessory1, status) +
+               GetBonusOf(Accessory2, status) +
+               GetBonusOf(Accessory3, status);
+    }
+
+    private int GetBonusOf(EquipmentPiece? equipment, Status status)
+    {
+        return equipment != null ? equipment.GetBonusFor(status) : 0;
     }
 }

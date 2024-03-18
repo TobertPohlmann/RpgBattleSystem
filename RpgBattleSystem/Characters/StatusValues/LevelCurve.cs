@@ -1,3 +1,5 @@
+using RpgBattleSystem.Functions;
+
 namespace RpgBattleSystem.Characters;
 
 public class LevelCurve
@@ -68,17 +70,13 @@ public class LevelCurve
         return x => amplitude * func(x) + offset;
     }
 
-    private Func<int, double> FermiFunction(double mu, double kbT, double A, double C=0)
-    {
-        return x => A*(1 / (Math.Exp(-(x - mu) / kbT) + 1) + C);
-    }
 
     private Func<int, double> MidLevelGrowth()
     {
         Func<int, double> scaleKbt = x => Math.Pow(x, 2);
         double kbT = scaleKbt(_linearity) * 40 / scaleKbt(100) + 3;
 
-        return FermiFunction(50, kbT, 1, 0);
+        return UsefulFunctions.FermiFunction(50, kbT, 1, 0);
     }
     
     private Func<int, double> EarlyGrowth()
@@ -86,14 +84,14 @@ public class LevelCurve
         Func<int, double> scaleKbt = x => Math.Pow(x, 1.8);
         double kbT = scaleKbt(_linearity) * 80 / scaleKbt(100) + 5;
         
-        return FermiFunction(0, kbT, 2, 0);
+        return UsefulFunctions.FermiFunction(0, kbT, 2, 0);
     }
     
     private Func<int, double> LateGrowth()
     {
         Func<int, double> scaleKbt = x => Math.Pow(x, 1.8);
         double kbT = scaleKbt(_linearity) * 80 / scaleKbt(100) + 15;
-        return FermiFunction(100, kbT, 100, 0);
+        return UsefulFunctions.FermiFunction(100, kbT, 100, 0);
     }
     
     private Func<int, double> LinearGrowth()
@@ -108,8 +106,8 @@ public class LevelCurve
         double levelProgressionLeft = (100-_softCapLevel) / 100.0;
         
         Func<int,double> afterSoftCap = x => (valueAtSoftCap+0.15*levelProgressionLeft*valueAtSoftCap/(100-_softCapLevel)*(x-_softCapLevel));
-        return x => FermiFunction(_softCapLevel-kbT/2, kbT, 1, 0)(x) * afterSoftCap(x) +
-                          (1.0 - FermiFunction(_softCapLevel-kbT/2, kbT, 1, 0)(x)) * func(x);
+
+        return UsefulFunctions.Piecewise(func, afterSoftCap, _softCapLevel, kbT);
     }
 }
 

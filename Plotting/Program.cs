@@ -2,12 +2,16 @@
 
 using Plotting;
 using RpgBattleSystem.Characters;
+using RpgBattleSystem.Functions;
 
 Console.WriteLine();
 
+//LevelCurvePlotter.PlotAll();
 
-foreach (Status status in Enum.GetValues(typeof(Status)))
-{
-    LevelCurvePlotter.PlotStatusValue(status);
-}
 
+Func<int, double> linear = x => x;
+Func<int, double> exp = x => Math.Exp(x);
+Func<int, double> dmgFnct = UsefulFunctions.Piecewise(exp, linear, 1);
+
+
+DamageCurvePlotter.PlotFunction(dmgFnct);
