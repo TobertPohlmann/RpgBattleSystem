@@ -25,16 +25,57 @@ public record BoundedValue
 
     public void SetValue(int newValue)
     {
-        if (!CanBeSetTo(newValue))
+        int updatedValue;
+        if (newValue > _maxValue)
         {
-            throw new Exception("Value is bound by " + _minValue + " and "+ _maxValue +
-            ". Cannot be set to" +newValue+".");
+            updatedValue = _maxValue;
+        } else if (newValue < _minValue)
+        {
+            updatedValue = _minValue;
         }
-        CurrentValue = newValue;
+        else
+        {
+            updatedValue = newValue;
+        }
+        CurrentValue = updatedValue;
     }
 
     public void IncreaseValueBy(int increment)
     {
         SetValue(CurrentValue + increment);
     }
+
+    public static BoundedValue operator +(BoundedValue a, BoundedValue b)
+    {
+        a.IncreaseValueBy(b.CurrentValue);
+        return a;
+    }
+
+    public static BoundedValue operator +(BoundedValue a, int b)
+    {
+        a.IncreaseValueBy(b);
+        return a;
+    }
+
+    public static BoundedValue operator +(int a, BoundedValue b) => b + a;
+    
+    public static BoundedValue operator -(BoundedValue a, BoundedValue b)
+    {
+        a.IncreaseValueBy(-b.CurrentValue);
+        return a;
+    }
+
+    public static BoundedValue operator -(BoundedValue a, int b)
+    {
+        a.IncreaseValueBy(-b);
+        return a;
+    }
+
+    public static BoundedValue operator -(int a, BoundedValue b)
+    {
+        int value = a - b.CurrentValue;
+        b.SetValue(value);
+        return b;
+    }
+
 }

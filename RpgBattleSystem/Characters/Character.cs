@@ -4,6 +4,7 @@ public class Character
 {
     public CharacterBase Base { get; }
     public int Health;
+    public BoundedValue Stance = new (0, -100, 100);
     public CharacterEquipment Equipment { get; } = new();
     public CharacterBuffs Buffs { get; } = new();
     public List<StatusAffliction> Afflictions = new();

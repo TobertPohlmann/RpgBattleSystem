@@ -2,7 +2,7 @@ using RpgBattleSystem.Characters;
 
 namespace RpgBattleSystem.Skills;
 
-public class BuffEffect : Effect
+public class BuffEffect : IEffect
 {
     private Character _target;
     private Buff _buff;

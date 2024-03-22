@@ -2,11 +2,17 @@ namespace RpgBattleSystem.Skills;
 
 public class Skill
 {
-    private List<Effect> _effects = new();
+    public string Name { get; } = "Skill";
+    public List<IEffect> Effects { get; } = new();
 
-    public Skill WithEffect(Effect effect)
+    public Skill(string name)
     {
-        _effects.Add(effect);
+        Name = name;
+    }
+    
+    public Skill WithEffect(IEffect effect)
+    {
+        Effects.Add(effect);
         return this;
     }
 }
