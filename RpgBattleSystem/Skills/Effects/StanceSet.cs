@@ -1,20 +1,20 @@
 using RpgBattleSystem.Characters;
+using RpgBattleSystem.Characters.StatusValues;
+using RpgBattleSystem.Enums;
 
-namespace RpgBattleSystem.Skills;
+namespace RpgBattleSystem.Skills.Effects;
 
-public class StanceSet : IEffect
+public class StanceSet : Effect
 {
-    private Character _target;
     private BoundedValue _value = new (0,-100,100);
 
-    public StanceSet(Character target, int value)
+    public StanceSet(int value, EffectDirection direction) : base(direction)
     {
-        _target = target;
         _value.SetValue(value);
     }
 
-    public void Apply()
+    internal override void ApplyTo(Character recipient)
     {
-        _target.Stance = _value;
+        recipient.Stance = _value;
     }
 }

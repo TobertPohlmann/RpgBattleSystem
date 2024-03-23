@@ -1,3 +1,5 @@
+using RpgBattleSystem.Enums;
+
 namespace RpgBattleSystem.Characters;
 
 

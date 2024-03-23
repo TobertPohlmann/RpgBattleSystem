@@ -1,4 +1,4 @@
-namespace RpgBattleSystem.Characters;
+namespace RpgBattleSystem.Enums;
 
 public enum Status
 {

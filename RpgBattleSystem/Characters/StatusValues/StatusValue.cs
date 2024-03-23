@@ -1,5 +1,6 @@
-namespace RpgBattleSystem.Characters;
+namespace RpgBattleSystem.Characters.StatusValues;
 
+using Attribute = Enums.Attribute;
 public class StatusValue
 {
     public Dictionary<Attribute, LevelCurve> LevelCurves = new();

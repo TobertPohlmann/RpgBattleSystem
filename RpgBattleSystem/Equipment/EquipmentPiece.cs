@@ -1,6 +1,5 @@
-using RpgBattleSystem.Characters;
-using Attribute = RpgBattleSystem.Characters.Attribute;
-
+using RpgBattleSystem.Enums;
+using Attribute = RpgBattleSystem.Enums.Attribute;
 namespace RpgBattleSystem.Equipment;
 
 public class EquipmentPiece

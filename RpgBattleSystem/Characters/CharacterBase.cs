@@ -1,3 +1,7 @@
+using RpgBattleSystem.Characters.StatusValues;
+using RpgBattleSystem.Enums;
+using Attribute = RpgBattleSystem.Enums.Attribute;
+
 namespace RpgBattleSystem.Characters;
 
 public class CharacterBase

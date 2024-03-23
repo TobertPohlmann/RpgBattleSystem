@@ -1,4 +1,7 @@
-namespace RpgBattleSystem.Characters;
+using RpgBattleSystem.Enums;
+using Attribute = RpgBattleSystem.Enums.Attribute;
+
+namespace RpgBattleSystem.Characters.StatusValues;
 
 public class StatusValueFactory
 {

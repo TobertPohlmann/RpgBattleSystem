@@ -1,3 +1,6 @@
+using RpgBattleSystem.Characters.StatusValues;
+using RpgBattleSystem.Enums;
+
 namespace RpgBattleSystem.Characters;
 
 public class Character

@@ -2,6 +2,8 @@ using Microsoft.FSharp.Core;
 using Plotly.NET;
 using Plotly.NET.LayoutObjects;
 using RpgBattleSystem.Characters;
+using RpgBattleSystem.Characters.StatusValues;
+using RpgBattleSystem.Enums;
 
 namespace Plotting;
 

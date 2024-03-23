@@ -1,3 +1,5 @@
+using RpgBattleSystem.Characters.StatusValues;
+
 namespace RpgBattleSystem.Characters;
 
 public class Stance

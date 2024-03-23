@@ -1,4 +1,4 @@
-namespace RpgBattleSystem.Characters;
+namespace RpgBattleSystem.Characters.StatusValues;
 
 public record BoundedValue
 {

@@ -1,20 +1,19 @@
 using RpgBattleSystem.Characters;
+using RpgBattleSystem.Enums;
 
-namespace RpgBattleSystem.Skills;
+namespace RpgBattleSystem.Skills.Effects;
 
-public class BuffEffect : IEffect
+public class BuffEffect : Effect
 {
-    private Character _target;
     private Buff _buff;
 
-    public BuffEffect(Character target, Buff buff)
+    public BuffEffect(Buff buff, EffectDirection direction) : base(direction)
     {
-        _target = target;
         _buff = buff;
     }
 
-    public void Apply()
+    internal override void ApplyTo(Character recipient)
     {
-        _target.Buffs.AddBuff(_buff);
+        recipient.Buffs.AddBuff(_buff);
     }
 }

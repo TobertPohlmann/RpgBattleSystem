@@ -1,6 +1,6 @@
 using RpgBattleSystem.Functions;
 
-namespace RpgBattleSystem.Characters;
+namespace RpgBattleSystem.Characters.StatusValues;
 
 public class LevelCurve
 {

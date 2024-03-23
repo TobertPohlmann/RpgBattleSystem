@@ -1,6 +1,4 @@
-using System.Reflection;
-
-namespace RpgBattleSystem.Characters;
+namespace RpgBattleSystem.Enums;
 
 public enum AttackType
 {
