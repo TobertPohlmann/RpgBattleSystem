@@ -1,17 +1,20 @@
 using RpgBattleSystem.Characters;
 using RpgBattleSystem.Enums;
+using RpgBattleSystem.Equipment;
 
 namespace RpgBattleSystem.Skills.Effects;
 
 public class WeaponDamage : Effect
 {
     private AttackType _type;
+    private Weapon _weapon;
     private double _multiplier;
 
-    public WeaponDamage(AttackType type, double multiplier = 1, EffectDirection direction = EffectDirection.Target) : base(direction) 
+    public WeaponDamage(AttackType type, Weapon weapon, double multiplier = 1, EffectDirection direction = EffectDirection.Target) : base(direction) 
     {
         _type = type;
         _multiplier = multiplier;
+        _weapon = weapon;
     }
     
     internal override void ApplyTo(Character recipient)
@@ -22,14 +25,12 @@ public class WeaponDamage : Effect
 
     private double CalculateDamage(Character recipient)
     {
-        int attackValue = User.StatusValue(_type.Attack());
-        
+        int attackValue = User.GetAttackFor(_weapon);
+
         Status defenseStatus = _type.Defense();
         int totalDefense = recipient.StatusValue(defenseStatus);
         int baseDefense = recipient.Base.GetStatusValueFor(defenseStatus);
         int equipDefense = recipient.Equipment.GetTotalBonusFor(defenseStatus);
-
-
         
         double effectiveDefense;
         switch (_type)

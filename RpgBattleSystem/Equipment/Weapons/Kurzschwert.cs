@@ -11,12 +11,12 @@ public class Kurzschwert : Weapon
     public Kurzschwert() : base("Kurzschwert", 20)
     {
         var swordStrike = new Skill("Schwerthieb")
-            .WithEffect(new WeaponDamage(AttackType.Strike,1,EffectDirection.Target))
+            .WithEffect(new WeaponDamage(AttackType.Strike, this,1,EffectDirection.Target))
             .WithEffect(new StanceShift(-25,EffectDirection.Target))
             .WithEffect(new StanceShift(15,EffectDirection.User));
         
         var swiftSwing = new Skill("Flinker Schwung")
-            .WithEffect(new WeaponDamage(AttackType.Strike,0.8,EffectDirection.Target))
+            .WithEffect(new WeaponDamage(AttackType.Strike, this,0.8,EffectDirection.Target))
             .WithEffect(new StanceShift(-50,EffectDirection.User));
         
         Skills.Add(swordStrike);

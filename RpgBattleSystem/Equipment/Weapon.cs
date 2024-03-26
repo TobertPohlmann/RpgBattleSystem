@@ -1,4 +1,5 @@
 
+using RpgBattleSystem.Characters;
 using RpgBattleSystem.Skills;
 using Attribute = RpgBattleSystem.Enums.Attribute;
 
@@ -17,5 +18,10 @@ public class Weapon : EquipmentPiece
         {
             _scaling[attribute] = 0;
         }
+    }
+
+    public double GetScalingFor(Attribute attribute)
+    {
+        return _scaling[attribute];
     }
 }

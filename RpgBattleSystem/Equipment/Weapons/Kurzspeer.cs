@@ -12,12 +12,12 @@ public class Kurzspeer : Weapon
     {
         Skills.Add(new Skill("Speerstoß")
             .WithEffect(new StanceShift(30,EffectDirection.User))
-            .WithEffect(new WeaponDamage(AttackType.Pierce,1,EffectDirection.Target))
+            .WithEffect(new WeaponDamage(AttackType.Pierce,this,1,EffectDirection.Target))
             .WithEffect(new StanceShift(30,EffectDirection.Target))
             );
 
         Skills.Add(new Skill("Speerwurf")
-            .WithEffect(new WeaponDamage(AttackType.Pierce, 0.8, EffectDirection.Target))
+            .WithEffect(new WeaponDamage(AttackType.Pierce, this,0.8, EffectDirection.Target))
             .WithEffect(new StanceShift(-80, EffectDirection.User))
         );
         _scaling[Attribute.Dexterity] = 1.5;

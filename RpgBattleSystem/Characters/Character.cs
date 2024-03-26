@@ -1,5 +1,7 @@
 using RpgBattleSystem.Characters.StatusValues;
 using RpgBattleSystem.Enums;
+using RpgBattleSystem.Equipment;
+using Attribute = RpgBattleSystem.Enums.Attribute;
 
 namespace RpgBattleSystem.Characters;
 
@@ -76,5 +78,16 @@ public class Character
         int baseValue = Base.GetStatusValueFor(status);
         int equipmentValue = Equipment.GetTotalBonusFor(status);
         return Buffs.GetModifiedValue(baseValue + equipmentValue, status);
+    }
+    
+
+    public int GetAttackFor(Weapon weapon)
+    {
+        double totalAttack = weapon.BaseAttack;
+        foreach (Attribute attribute in Enum.GetValues(typeof(Attribute)))
+        {
+            totalAttack += weapon.GetScalingFor(attribute)*Base.GetLevelFor(attribute);
+        }
+        return (int)totalAttack;
     }
 }
