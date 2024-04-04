@@ -15,4 +15,13 @@ public class CharacterTurn
         _move = move;
         _targets = targets;
     }
+
+    public void PlayOut()
+    {
+        foreach (var effect in _move.Effects)
+        {
+            effect.Apply();
+        }
+    }
+    
 }
