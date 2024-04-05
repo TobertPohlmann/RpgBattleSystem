@@ -6,20 +6,20 @@ namespace RpgBattleSystem.Skills.Effects;
 
 public class WeaponDamage : Effect
 {
-    private AttackType _type;
+    public AttackType AttackType;
     private Weapon _weapon;
-    private double _multiplier;
+    public double Multiplier;
 
-    public WeaponDamage(AttackType type, Weapon weapon, double multiplier = 1, EffectDirection direction = EffectDirection.Target) : base(direction) 
+    public WeaponDamage(AttackType attackType, Weapon weapon, double multiplier = 1, EffectDirection direction = EffectDirection.Target) : base(direction) 
     {
-        _type = type;
-        _multiplier = multiplier;
+        AttackType = attackType;
+        Multiplier = multiplier;
         _weapon = weapon;
     }
     
     internal override void ApplyTo(Character recipient)
     {
-        int damage = (int)(CalculateDamage(recipient)*_multiplier);
+        int damage = (int)(CalculateDamage(recipient)*Multiplier);
         recipient.Health -= damage;
     }
 
@@ -27,13 +27,13 @@ public class WeaponDamage : Effect
     {
         int attackValue = User.GetAttackFor(_weapon);
 
-        Status defenseStatus = _type.Defense();
+        Status defenseStatus = AttackType.Defense();
         int totalDefense = recipient.StatusValue(defenseStatus);
         int baseDefense = recipient.Base.GetStatusValueFor(defenseStatus);
         int equipDefense = recipient.Equipment.GetTotalBonusFor(defenseStatus);
         
         double effectiveDefense;
-        switch (_type)
+        switch (AttackType)
         {
             case AttackType.Cut: effectiveDefense = recipient.Buffs.GetModifiedValue((int)((baseDefense + 2*equipDefense) / 3.0), Status.CutDefense);
                 break;
@@ -41,7 +41,7 @@ public class WeaponDamage : Effect
                 break;
             case AttackType.Strike: effectiveDefense = totalDefense;
                 break;
-            default: throw new Exception("Attack type "+_type+" is not registered.");
+            default: throw new Exception("Attack type "+AttackType+" is not registered.");
         }
 
         return CalculateDamage(attackValue,effectiveDefense);

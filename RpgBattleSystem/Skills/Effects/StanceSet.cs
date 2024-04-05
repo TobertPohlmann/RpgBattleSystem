@@ -6,15 +6,15 @@ namespace RpgBattleSystem.Skills.Effects;
 
 public class StanceSet : Effect
 {
-    private BoundedValue _value = new (0,-100,100);
+    public BoundedValue Value = new (0,-100,100);
 
     public StanceSet(int value, EffectDirection direction) : base(direction)
     {
-        _value.SetValue(value);
+        Value.SetValue(value);
     }
 
     internal override void ApplyTo(Character recipient)
     {
-        recipient.Stance = _value;
+        recipient.Stance = Value;
     }
 }

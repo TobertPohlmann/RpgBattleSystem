@@ -5,7 +5,9 @@ namespace RpgBattleSystem.Characters;
 
 public record CharacterEquipment
 {
-    public Weapon? Weapon = null;
+    public Weapon? Weapon1 = null;
+    public Weapon? Weapon2 = null;
+    public Weapon? Weapon3 = null;
     public Helmet? Helmet = null;
     public ChestArmor? Chest = null;
     public LegArmor? Legs = null;
@@ -15,8 +17,7 @@ public record CharacterEquipment
 
     public int GetTotalBonusFor(Status status)
     {
-        return GetBonusOf(Weapon, status) +
-               GetBonusOf(Helmet, status) +
+        return GetBonusOf(Helmet, status) +
                GetBonusOf(Chest, status) +
                GetBonusOf(Legs, status) +
                GetBonusOf(Accessory1, status) +

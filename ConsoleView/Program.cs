@@ -1,5 +1,6 @@
 ﻿using ConsoleView.CharacterPanels;
 using RpgBattleSystem.Characters;
+using RpgBattleSystem.Equipment.Weapons;
 using Spectre.Console;
 
 public static class Program
@@ -9,11 +10,11 @@ public static class Program
         AnsiConsole.Markup("[underline red]Hello[/] World!");
 
         Character hans = new("Hans");
-        CharacterPanel hansPanel = new(hans);
-        Panel panel = new Panel("Huhn");
-        panel.Header = new PanelHeader("HUHN");
-        panel.Expand = true;
-        hansPanel.Draw();
+        hans.Equipment.Weapon1 = new Kurzschwert();
+        CharacterHealthPanel healthPanel = new(hans);
+        CharacterBasePanel basePanel = new(hans);
+        healthPanel.Draw();
+        basePanel.Draw();
 
     }
 }

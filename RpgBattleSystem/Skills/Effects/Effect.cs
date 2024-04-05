@@ -7,7 +7,7 @@ public abstract class Effect
 {
     internal Character? User;
     internal Character? Target;
-    internal EffectDirection Direction;
+    public EffectDirection Direction;
 
     public Effect(EffectDirection direction)
     {
