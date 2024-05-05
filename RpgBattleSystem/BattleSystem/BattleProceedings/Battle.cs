@@ -4,11 +4,13 @@ namespace RpgBattleSystem.BattleSystem.BattleProceedings;
 
 public class Battle
 {
-    private List<Character> _participants;
+    public List<Character> HeroParty { get; }
+    public List<Character> EnemyParty { get; }
     private List<BattleTurn> _battleTurns;
 
-    public Battle(List<Character> participants)
+    public Battle(List<Character> heroParty, List <Character> enemyParty)
     {
-        _participants = participants;
+        HeroParty = heroParty;
+        EnemyParty = enemyParty;
     }
 }

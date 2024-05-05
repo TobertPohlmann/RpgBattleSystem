@@ -6,12 +6,17 @@ using Attribute = RpgBattleSystem.Enums.Attribute;
 
 namespace ConsoleView.CharacterPanels;
 
-public class CharacterBasePanel : CharacterPanel
+public class CharacterBasePanel : CharacterSubPanel
 {
     public CharacterBasePanel(Character character) : base(character) 
     {}
     
     private protected override Renderable CreateContent()
+    {
+        return new Columns(CreateLeftColumn(),CreateRightColumn());
+    }
+
+    private Renderable CreateLeftColumn()
     {
         var grid = new Grid();
 
@@ -24,14 +29,23 @@ public class CharacterBasePanel : CharacterPanel
         grid.AddRow(CreateStatRow(Attribute.Strength,Status.StrikeForce));
         grid.AddRow(CreateStatRow(Attribute.Dexterity,Status.Technique));
         grid.AddRow(CreateStatRow(Attribute.Focus,Status.Precision));
+        grid.AddRow(CreateStatRow(Attribute.Swiftness,Status.Speed));
+        return grid;
+    }
+
+    private Renderable CreateRightColumn()
+    {
+        var grid = new Grid();
+        grid.AddColumn();
+        grid.AddColumn();
+        grid.AddColumn();
+        grid.AddColumn();
         grid.AddRow(CreateStatRow(Attribute.Immunity,Status.StrikeDefense));
         grid.AddRow(CreateStatRow(null,Status.CutDefense));
         grid.AddRow(CreateStatRow(null,Status.PierceDefense));
         grid.AddRow(CreateStatRow(null,Status.HeatResistance));
         grid.AddRow(CreateStatRow(null,Status.ColdResistance));
         grid.AddRow(CreateStatRow(null,Status.PoisonResistance));
-        grid.AddRow(CreateStatRow(Attribute.Swiftness,Status.Speed));
-        
         return grid;
     }
 

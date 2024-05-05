@@ -5,7 +5,7 @@ public enum AttackType
     Strike,Cut,Pierce
 }
 
-static class AttackTyoeExtensions 
+static class AttackTypeExtensions 
 {
     public static Status Attack(this AttackType attackType) 
     {

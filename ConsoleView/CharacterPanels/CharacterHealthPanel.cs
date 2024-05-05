@@ -1,8 +1,5 @@
 using RpgBattleSystem.Characters;
-using RpgBattleSystem.Enums;
 using RpgBattleSystem.Equipment;
-using RpgBattleSystem.Skills;
-using RpgBattleSystem.Skills.Effects;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 using Attribute = RpgBattleSystem.Enums.Attribute;
@@ -10,12 +7,13 @@ using Status = RpgBattleSystem.Enums.Status;
 
 namespace ConsoleView.CharacterPanels;
 
-public class CharacterHealthPanel : CharacterPanel
+public class CharacterHealthPanel : CharacterSubPanel
 {
     private readonly Color _defenseColor = ColorRegistry.For(Attribute.Immunity);
     private readonly Color _offenseColor = Color.DeepPink1;
-
     private readonly int _barWidth;
+
+    public bool ShowWeaponSection { get; set; } = true;
 
     public CharacterHealthPanel(Character character) : base(character)
     {
@@ -25,13 +23,13 @@ public class CharacterHealthPanel : CharacterPanel
     private protected override Renderable CreateContent()
     {
         List<Renderable> contentList = new();
-        var maxHealth = Character.Base.GetStatusValueFor(Status.MaxHealth);
-
-        var healthChart = CreateHealthChart(Character.Health, maxHealth);
-        contentList.Add(healthChart);
-        contentList.Add(CreateStanceChart(Character.Stance.CurrentValue));
-        contentList.Add(CreateWeaponSection());
-        return new Rows(contentList);
+        contentList.Add(CreateHealthSection());
+        if (ShowWeaponSection && Character.Equipment.HasWeaponEquipped())
+        {
+            contentList.Add(VerticalLine());
+            contentList.Add(CreateWeaponSection());
+        }
+        return new Columns(contentList);
     }
 
     private Renderable CreateHealthChart(double health, int maxHealth)
@@ -99,6 +97,14 @@ public class CharacterHealthPanel : CharacterPanel
         return new Padder(new Markup(stanceCursorText, stanceCursorStyle)).PadLeft(padding).PadTop(0).PadBottom(0);
     }
 
+    private Renderable CreateHealthSection()
+    {
+        var maxHealth = Character.Base.GetStatusValueFor(Status.MaxHealth);
+        return new Rows(
+            CreateHealthChart(Character.Health, maxHealth),
+            CreateStanceChart(Character.Stance.CurrentValue));
+    }
+
     private Renderable CreateWeaponSection()
     {
         Grid grid = new Grid();
@@ -106,6 +112,13 @@ public class CharacterHealthPanel : CharacterPanel
         grid.AddColumn(); //Angriff
         grid.AddColumn(); //Fertigkeit
 
+        var headline = new IRenderable[3];
+        
+        headline[0] = new Markup("Weapons", HeadlineColor);
+        headline[1] = new Markup("");
+        headline[2] = new Markup("Skills",HeadlineColor);
+
+        grid.AddRow(headline);
         AddRowsFor(grid,Character.Equipment.Weapon1);
         AddRowsFor(grid,Character.Equipment.Weapon2);
         AddRowsFor(grid,Character.Equipment.Weapon3);
@@ -120,13 +133,7 @@ public class CharacterHealthPanel : CharacterPanel
         }
         
         var rows = new List<IRenderable[]>();
-        
-        rows.Add(new IRenderable[3]);
-        rows[0][0] = new Markup("Weapons", HeadlineColor);
-        rows[0][1] = new Markup("");
-        rows[0][2] = new Markup("Skills",HeadlineColor);
-        
-        int count = 1;
+        int count = 0;
         foreach (var skill in weapon.Skills)
         {
             rows.Add(new IRenderable[3]);
@@ -135,8 +142,8 @@ public class CharacterHealthPanel : CharacterPanel
             rows[count][2] = new Markup(skill.Name);
             count++;
         }
-        rows[1][0] = new Markup(weapon.Name);
-        rows[1][1] = new Markup(weapon.BaseAttack+"");
+        rows[0][0] = new Markup(weapon.Name);
+        rows[0][1] = new Markup(weapon.BaseAttack+"");
 
         foreach (var row in rows)
         {

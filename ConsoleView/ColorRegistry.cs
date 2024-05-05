@@ -7,14 +7,17 @@ namespace ConsoleView;
 
 public class ColorRegistry
 {
+    public static Color EnemyColor = Color.DarkOrange;
+    public static Color HeroColor = Color.CornflowerBlue;
+    
     public static Color For(Attribute attribute)
     {
         switch (attribute)
         {
             case Attribute.Vitality: return Color.CornflowerBlue;
             case Attribute.Endurance: return Color.Green;
-            case Attribute.Swiftness: return Color.Gold1;
-            case Attribute.Immunity: return Color.MediumTurquoise;
+            case Attribute.Swiftness: return Color.Gold3;
+            case Attribute.Immunity: return Color.SkyBlue3;
             case Attribute.Strength: return Color.Red;
             case Attribute.Focus: return Color.Red1;
             default: return Color.Magenta1;
@@ -34,9 +37,9 @@ public class ColorRegistry
             case Status.StrikeDefense: return For(Attribute.Immunity);
             case Status.CutDefense: return For(Attribute.Immunity);
             case Status.PierceDefense: return For(Attribute.Immunity);
-            case Status.ColdResistance: return For(Attribute.Immunity).Blend(Color.White,0.5f);
-            case Status.HeatResistance: return For(Attribute.Immunity).Blend(Color.White,0.5f);
-            case Status.PoisonResistance: return For(Attribute.Immunity).Blend(Color.White,0.5f);
+            case Status.ColdResistance: return For(Attribute.Immunity).Blend(Color.White,0.3f);
+            case Status.HeatResistance: return For(Attribute.Immunity).Blend(Color.White,0.3f);
+            case Status.PoisonResistance: return For(Attribute.Immunity).Blend(Color.White,0.3f);
             default: return Color.White;
         }
     }
@@ -50,4 +53,6 @@ public class ColorRegistry
             default: return For(Attribute.Focus);
         }
     }
+    
+    
 }

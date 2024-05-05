@@ -13,9 +13,9 @@ public class Character
     public CharacterEquipment Equipment { get; } = new();
     public CharacterBuffs Buffs { get; } = new();
     public List<StatusAffliction> Afflictions = new();
-    public Character(string name)
+    public Character(string name, Sex sex = Sex.Male, Heritage heritage = Heritage.Preußen)
     {
-        Base = new(name);
+        Base = new(name,sex,heritage);
         Health = Base.GetStatusValueFor(Status.MaxHealth);
     }
     

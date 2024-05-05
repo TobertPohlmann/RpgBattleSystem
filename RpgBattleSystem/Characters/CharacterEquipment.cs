@@ -15,6 +15,11 @@ public record CharacterEquipment
     public Accessory? Accessory2 = null;
     public Accessory? Accessory3 = null;
 
+    public bool HasWeaponEquipped()
+    {
+        return Weapon1 != null || Weapon2 != null || Weapon3 != null;
+    }
+    
     public int GetTotalBonusFor(Status status)
     {
         return GetBonusOf(Helmet, status) +
