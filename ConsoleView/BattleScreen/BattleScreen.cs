@@ -1,6 +1,7 @@
 using ConsoleView.CharacterPanels;
 using ConsoleView.Messages;
 using RpgBattleSystem.BattleSystem.BattleProceedings;
+using RpgBattleSystem.Characters;
 using Spectre.Console;
 
 namespace ConsoleView.BattleScreen;
@@ -12,9 +13,7 @@ public class BattleScreen
     private PartyLayout _enemyLayout;
     private MessageBox _messageBox;
     private Layout _layout;
-
-
-
+    
     public BattleScreen(Battle battle)
     {
         _battle = battle;
@@ -27,12 +26,31 @@ public class BattleScreen
         AnsiConsole.Write("\n");
         AnsiConsole.Write(_layout);
     }
+
+    public CharacterPanel GetPanelFor(Character character)
+    {
+        if (_heroLayout.CharacterPanels.ContainsKey(character))
+        {
+            return _heroLayout.CharacterPanels[character];
+        }
+        
+        if (_enemyLayout.CharacterPanels.ContainsKey(character))
+        {
+            return _enemyLayout.CharacterPanels[character];
+        }
+        throw new Exception("There is no panel registered for character " + character.Base.Name);
+    }
+
+    public void WriteMessage(string text)
+    {
+        _messageBox = new MessageBox("MessageRow", text);
+    }
     
     private void CreateLayout()
     {
         _heroLayout = new PartyLayout("HeroRow", _battle.HeroParty);
         _enemyLayout = new PartyLayout("EnemyRow", _battle.EnemyParty);
-        _messageBox = new MessageBox("MessageRow", BattleBeginsMessage());
+        WriteMessage(BattleBeginsMessage());
         
         _layout = new Layout("Root")
             .SplitRows(_enemyLayout.Layout,
@@ -43,8 +61,8 @@ public class BattleScreen
 
     private void Update()
     {
-        _heroLayout.UpdateLayout(SubPanelType.Health);
-        _enemyLayout.UpdateLayout(SubPanelType.Health);
+        _heroLayout.UpdateLayout(SubPanelType.Standard);
+        _enemyLayout.UpdateLayout(SubPanelType.Standard);
         _messageBox.UpdateLayout();
     }
 

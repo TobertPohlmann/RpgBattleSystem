@@ -1,5 +1,6 @@
 ﻿using ConsoleView.BattleScreen;
 using ConsoleView.CharacterPanels;
+using ConsoleView.CharacterPanels.StandardPanel;
 using RpgBattleSystem.BattleSystem.BattleProceedings;
 using RpgBattleSystem.Characters;
 using RpgBattleSystem.Equipment.Weapons;
@@ -32,8 +33,8 @@ public static class Program
         
         battleScreen.Draw();
 
-        CharacterHealthPanel healthPanel = new(hans);
-        CharacterBasePanel basePanel = new(hans);
+        CharacterStandardPanel standardPanel = new(hans);
+        CharacterStatPanel statPanel = new(hans);
         //healthPanel.Draw();
         //basePanel.Draw();
 

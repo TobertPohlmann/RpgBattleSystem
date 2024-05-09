@@ -17,7 +17,15 @@ public record CharacterEquipment
 
     public bool HasWeaponEquipped()
     {
-        return Weapon1 != null || Weapon2 != null || Weapon3 != null;
+        return GetNumberOfWeapons() > 0;
+    }
+
+    public int GetNumberOfWeapons()
+    {
+        int weaponCount = Weapon1 != null ? 1 : 0;
+        weaponCount +=  Weapon2 != null ? 1 : 0;
+        weaponCount +=  Weapon3 != null ? 1 : 0;
+        return weaponCount;
     }
     
     public int GetTotalBonusFor(Status status)

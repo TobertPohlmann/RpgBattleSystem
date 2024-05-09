@@ -6,9 +6,9 @@ using Attribute = RpgBattleSystem.Enums.Attribute;
 
 namespace ConsoleView.CharacterPanels;
 
-public class CharacterBasePanel : CharacterSubPanel
+public class CharacterStatPanel : CharacterSubPanel
 {
-    public CharacterBasePanel(Character character) : base(character) 
+    public CharacterStatPanel(Character character) : base(character) 
     {}
     
     private protected override Renderable CreateContent()

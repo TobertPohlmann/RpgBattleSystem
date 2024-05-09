@@ -1,12 +1,13 @@
+using ConsoleView.CommonElements;
 using RpgBattleSystem.Characters;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 
 namespace ConsoleView.CharacterPanels;
 
-public abstract class CharacterSubPanel
+public abstract class CharacterSubPanel : SelectableElement
 {
-    private protected readonly Style HeadlineColor = new Style(foreground:Color.Grey53,decoration:Decoration.Underline);
+    public Panel Renderable;
     private protected const int Width = 40;
     public static int Height = 9;
     private protected Character Character;
@@ -14,22 +15,27 @@ public abstract class CharacterSubPanel
     public CharacterSubPanel(Character character)
     {
         Character = character;
+        //Select(true);
     }
     
     public void Draw()
     {
+        Render();
         AnsiConsole.Write("\n");
-        AnsiConsole.Write(CreatePanel());
+        AnsiConsole.Write(Renderable);
     }
     
-    public Panel CreatePanel()
+    public override void Render()
     {
         var content = CreateContent();
-        var panel = new Panel(content);
-        panel.Header = CreatePanelHeader();
-        panel.Width = Width;
-        panel.Height = Height;
-        return panel;
+        Renderable = new Panel(content);
+        Renderable.Header = CreatePanelHeader();
+        Renderable.Width = Width;
+        Renderable.Height = Height;
+        if (_selected)
+        {
+            Renderable.BorderStyle = ColorRegistry.SelectStyle;
+        }
     }
     
     private PanelHeader CreatePanelHeader()

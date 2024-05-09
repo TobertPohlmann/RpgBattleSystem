@@ -7,7 +7,7 @@ namespace ConsoleView.BattleScreen;
 public class PartyLayout
 {
     private string _name;
-    private List<CharacterPanel> _characterPanels = new();
+    public Dictionary<Character,CharacterPanel> CharacterPanels = new();
     public Layout Layout;
 
     public PartyLayout(string name, List<Character> party)
@@ -15,15 +15,14 @@ public class PartyLayout
         _name = name;
         foreach (var character in party)
         {
-            _characterPanels.Add(new CharacterPanel(character));
+            CharacterPanels[character] = new CharacterPanel(character);
         }
         
         Layout = new Layout(_name)
-            .SplitColumns(GetPartyLayout(party));
-        //Layout.MinimumSize(CharacterSubPanel.Height);
+            .SplitColumns(CreatePartyLayout(party));
     }
     
-    private Layout[] GetPartyLayout(List<Character> party)
+    private Layout[] CreatePartyLayout(List<Character> party)
     {
         var partyLayout = new Layout[party.Count];
         for (int i = 0; i < party.Count; i++)
@@ -35,14 +34,15 @@ public class PartyLayout
 
     public void UpdateLayout(SubPanelType panelType)
     {
-        for (int i = 0; i < _characterPanels.Count; i++)
+        int i = 0;
+        foreach (var panel in CharacterPanels.Values)
         {
             Layout[_name]["" + i].Update(
                 Align.Center(
-                    _characterPanels[i].GetPanelFor(panelType)
-                    )
-                );
+                    panel.GetSubPanelFor(panelType)
+                )
+            );
+            i += 1;
         }
     }
-    
 }

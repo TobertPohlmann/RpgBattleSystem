@@ -9,6 +9,9 @@ public class ColorRegistry
 {
     public static Color EnemyColor = Color.DarkOrange;
     public static Color HeroColor = Color.CornflowerBlue;
+    public static Style SelectStyle = new Style(foreground:Color.DarkGoldenrod,decoration:Decoration.Bold);
+    public static Style HeadlineStyle = new Style(foreground:Color.Grey53,decoration:Decoration.Underline);
+
     
     public static Color For(Attribute attribute)
     {

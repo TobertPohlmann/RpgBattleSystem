@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plotting", "Plotting\Plotti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleView", "ConsoleView\ConsoleView.csproj", "{D18C9A95-E3D4-4079-A338-98C3BAE83B1B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameController", "GameController\GameController.csproj", "{E68160D9-A904-4F92-B4ED-CAB5C23784C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{D18C9A95-E3D4-4079-A338-98C3BAE83B1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D18C9A95-E3D4-4079-A338-98C3BAE83B1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D18C9A95-E3D4-4079-A338-98C3BAE83B1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E68160D9-A904-4F92-B4ED-CAB5C23784C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E68160D9-A904-4F92-B4ED-CAB5C23784C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E68160D9-A904-4F92-B4ED-CAB5C23784C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E68160D9-A904-4F92-B4ED-CAB5C23784C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

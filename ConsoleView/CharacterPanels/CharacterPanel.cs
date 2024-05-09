@@ -1,4 +1,6 @@
+using ConsoleView.CharacterPanels.StandardPanel;
 using RpgBattleSystem.Characters;
+using RpgBattleSystem.Skills;
 using Spectre.Console;
 
 namespace ConsoleView.CharacterPanels;
@@ -9,13 +11,23 @@ public class CharacterPanel
  
     public CharacterPanel(Character character)
     {
-        _panels[SubPanelType.Health] = new CharacterHealthPanel(character);
-        _panels[SubPanelType.Base] = new CharacterBasePanel(character);
+        _panels[SubPanelType.Standard] = new CharacterStandardPanel(character);
+        _panels[SubPanelType.Stat] = new CharacterStatPanel(character);
     }
 
-    public Panel GetPanelFor(SubPanelType panelType)
+    public Skill GetSelectedSkill()
     {
-        return _panels[panelType].CreatePanel();
+        return (_panels[SubPanelType.Standard] as CharacterStandardPanel).GetSelectedSkill();
     }
-    
+
+    public void SetSkillCursorPosition(int cursorPosition)
+    {
+        (_panels[SubPanelType.Standard] as CharacterStandardPanel).SetSkillCursorPosition(cursorPosition);
+    }
+
+    public Panel GetSubPanelFor(SubPanelType panelType)
+    {
+        _panels[panelType].Render();
+        return _panels[panelType].Renderable;
+    }
 }
