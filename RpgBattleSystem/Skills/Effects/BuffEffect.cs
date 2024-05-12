@@ -14,8 +14,11 @@ public class BuffEffect : Effect
         _duration = duration;
     }
 
-    internal override void ApplyTo(Character recipient)
+    internal override void ApplyTo(List<Character> recipients)
     {
-        recipient.Buffs.AddBuff(_buff);
+        foreach (var recipient in recipients)
+        {
+            recipient.Buffs.AddBuff(_buff);
+        }
     }
 }

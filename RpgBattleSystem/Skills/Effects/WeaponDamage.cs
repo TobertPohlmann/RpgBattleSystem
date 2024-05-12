@@ -17,10 +17,13 @@ public class WeaponDamage : Effect
         _weapon = weapon;
     }
     
-    internal override void ApplyTo(Character recipient)
+    internal override void ApplyTo(List<Character> recipients)
     {
-        int damage = (int)(CalculateDamage(recipient)*Multiplier);
-        recipient.Health -= damage;
+        foreach (var recipient in recipients)
+        {
+            int damage = (int)(CalculateDamage(recipient)*Multiplier);
+            recipient.Health -= damage;
+        }
     }
 
     private double CalculateDamage(Character recipient)

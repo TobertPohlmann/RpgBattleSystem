@@ -23,11 +23,22 @@ public class CharacterPanel
     public void SetSkillCursorPosition(int cursorPosition)
     {
         (_panels[SubPanelType.Standard] as CharacterStandardPanel).SetSkillCursorPosition(cursorPosition);
+        _panels[SubPanelType.Standard].Render();
     }
 
     public Panel GetSubPanelFor(SubPanelType panelType)
     {
         _panels[panelType].Render();
         return _panels[panelType].Renderable;
+    }
+
+    public void SelectSubPanelFor(SubPanelType panelType)
+    {
+        _panels[panelType].Select(true);
+    }
+    
+    public void DeselectSubPanelFor(SubPanelType panelType)
+    {
+        _panels[panelType].Select(false);
     }
 }

@@ -1,4 +1,5 @@
 using ConsoleView.CharacterPanels;
+using ConsoleView.CommonElements;
 using ConsoleView.Messages;
 using RpgBattleSystem.BattleSystem.BattleProceedings;
 using RpgBattleSystem.Characters;
@@ -6,25 +7,26 @@ using Spectre.Console;
 
 namespace ConsoleView.BattleScreen;
 
-public class BattleScreen
+public class BattleScreen : RenderableWrapper
 {
-    private Battle _battle;
+    public Battle Battle;
     private PartyLayout _heroLayout;
     private PartyLayout _enemyLayout;
     private MessageBox _messageBox;
-    private Layout _layout;
+    public Layout Renderable;
+
     
     public BattleScreen(Battle battle)
     {
-        _battle = battle;
+        Battle = battle;
         CreateLayout();
+        Render();
     }
 
     public void Draw()
     {
-        Update();
-        AnsiConsole.Write("\n");
-        AnsiConsole.Write(_layout);
+        Render();
+        AnsiConsole.Write(Renderable);
     }
 
     public CharacterPanel GetPanelFor(Character character)
@@ -43,23 +45,23 @@ public class BattleScreen
 
     public void WriteMessage(string text)
     {
-        _messageBox = new MessageBox("MessageRow", text);
+        _messageBox.Message = text;
     }
     
     private void CreateLayout()
     {
-        _heroLayout = new PartyLayout("HeroRow", _battle.HeroParty);
-        _enemyLayout = new PartyLayout("EnemyRow", _battle.EnemyParty);
-        WriteMessage(BattleBeginsMessage());
+        _heroLayout = new PartyLayout("HeroRow", Battle.HeroParty);
+        _enemyLayout = new PartyLayout("EnemyRow", Battle.EnemyParty);
+        _messageBox = new MessageBox("MessageRow",BattleBeginsMessage());
         
-        _layout = new Layout("Root")
+        Renderable = new Layout("Root")
             .SplitRows(_enemyLayout.Layout,
                 _messageBox.Layout,
                 _heroLayout.Layout);
     }
 
 
-    private void Update()
+    public override void Render()
     {
         _heroLayout.UpdateLayout(SubPanelType.Standard);
         _enemyLayout.UpdateLayout(SubPanelType.Standard);
@@ -70,36 +72,36 @@ public class BattleScreen
     {
         string message = "A ";
         string conjunction;
-        for (int i = 0; i < _battle.EnemyParty.Count; i++)
+        for (int i = 0; i < Battle.EnemyParty.Count; i++)
         {
-            conjunction = (_battle.EnemyParty.Count - i) switch
+            conjunction = (Battle.EnemyParty.Count - i) switch
             {
                 1 => " ",
                 2 => " and a ",
                 _ => ", a "
             };
-            message += "[" + ColorRegistry.EnemyColor.ToMarkup() + "]" + _battle.EnemyParty[i].Base.Name + "[/]" +
+            message += "[" + ColorRegistry.EnemyColor.ToMarkup() + "]" + Battle.EnemyParty[i].Base.Name + "[/]" +
                         conjunction;
         }
 
-        message += "attack".ConjugateForNumerus(_battle.EnemyParty.Count) + ".\n";
+        message += "attack".ConjugateForNumerus(Battle.EnemyParty.Count) + ".\n";
 
         string conjunction2;
-        for (int i = 0; i < _battle.HeroParty.Count; i++)
+        for (int i = 0; i < Battle.HeroParty.Count; i++)
         {
-            conjunction2 = (_battle.HeroParty.Count - i) switch
+            conjunction2 = (Battle.HeroParty.Count - i) switch
             {
                 1 => " ",
                 2 => " and ",
                 _ => ", "
             };
-            message += "[" + ColorRegistry.HeroColor.ToMarkup() + "]" + _battle.HeroParty[i].Base.Name + "[/]" +
+            message += "[" + ColorRegistry.HeroColor.ToMarkup() + "]" + Battle.HeroParty[i].Base.Name + "[/]" +
                         conjunction2;
         }
 
-        message += "draw".ConjugateForNumerus(_battle.HeroParty.Count) + " "
-                    + Pronoun.ForParty(_battle.HeroParty).With(Casus.Genitive).Get()
-                    + " weapon".DeclinateForNumerus(_battle.HeroParty.Count())
+        message += "draw".ConjugateForNumerus(Battle.HeroParty.Count) + " "
+                    + Pronoun.ForParty(Battle.HeroParty).With(Casus.Genitive).Get()
+                    + " weapon".DeclinateForNumerus(Battle.HeroParty.Count())
                     +".";
         return message;
     }

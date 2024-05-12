@@ -13,8 +13,11 @@ public class StanceShift : Effect
         Value.SetValue(value);
     }
 
-    internal override void ApplyTo(Character recipient)
+    internal override void ApplyTo(List<Character> recipients)
     {
-        recipient.Stance+= Value;
+        foreach (var recipient in recipients)
+        {
+            recipient.Stance+= Value;
+        }
     }
 }

@@ -40,37 +40,11 @@ public class WeaponSection : SelectableElement
         if (cursorPosition >= 0 && cursorPosition <= maxPosition)
         {
             _cursorPosition = cursorPosition;
+            return;
         }
         throw new Exception("Cursor was set to " + cursorPosition + ", but must be between 0 and " + maxPosition);
     }
-
-
-    public Renderable GetRenderable()
-    {
-        
-        Renderable = new();
-        Renderable.AddColumn(); //Waffe
-        Renderable.AddColumn(); //Angriff
-        Renderable.AddColumn(); //Fertigkeit
-
-        var headline = new IRenderable[3];
-
-        headline[0] = new Markup("Weapons", ColorRegistry.HeadlineStyle);
-        headline[1] = new Markup("");
-        headline[2] = new Markup("Skills", ColorRegistry.HeadlineStyle);
-        
-        Renderable.AddRow(headline);
-        var rows = AddRowsFor(_equipment.Weapon1,0);
-        
-        foreach (var row in rows)
-        {
-//            Renderable.AddRow(row);
-        }
-//        AddRowsFor(_equipment.Weapon2,1);
-//        AddRowsFor(_equipment.Weapon3,2);
-
-        return Renderable;
-    }
+    
     public override void Render()
     {
         Renderable = new();
@@ -90,23 +64,25 @@ public class WeaponSection : SelectableElement
         AddRowsFor(_equipment.Weapon3,2);
     }
 
-    private List<IRenderable[]>? AddRowsFor(Weapon? weapon, int slot)
+    private void AddRowsFor(Weapon? weapon, int slot)
     {
         if (weapon == null)
         {
-            return null;
+            return;
         }
 
         _weaponRows[slot] = new();
-        _weaponRows[slot].AttackValue = new SelectableMarkup(weapon.BaseAttack + "", _cursorPosition / 2 == slot);
-        _weaponRows[slot].WeaponName = new SelectableMarkup(weapon.Name, _cursorPosition / 2 == slot);
+        bool highlightWeapon = _selected && _cursorPosition / 2 == slot;
+        _weaponRows[slot].AttackValue = new SelectableMarkup(weapon.BaseAttack + "", highlightWeapon);
+        _weaponRows[slot].WeaponName = new SelectableMarkup(weapon.Name, highlightWeapon);
         
         var rows = new List<IRenderable[]>();
         int count = 0;
 
         foreach (var skill in weapon.Skills)
         {
-            _weaponRows[slot].SkillNames[count] = new SelectableMarkup(skill.Name, _selected && _cursorPosition == count+slot);
+            bool highlightSkill = highlightWeapon && _cursorPosition == count + 2*slot;
+            _weaponRows[slot].SkillNames[count] = new SelectableMarkup(skill.Name, highlightSkill);
             _weaponRows[slot].Skills[count] = skill;
             
             rows.Add(new IRenderable[3]);
@@ -119,10 +95,9 @@ public class WeaponSection : SelectableElement
         rows[0][0] = _weaponRows[slot].WeaponName.Renderable;
         rows[0][1] = _weaponRows[slot].AttackValue.Renderable;
 
-        return rows;
         foreach (var row in rows)
         {
-            //Renderable.AddRow(row);
+            Renderable.AddRow(row);
         }
     }
 }

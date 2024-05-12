@@ -35,10 +35,16 @@ public class CharacterStandardPanel : CharacterSubPanel
         contentList.Add(_healthSection.Renderable);
         if (ShowWeaponSection && Character.Equipment.HasWeaponEquipped())
         {
-            _weaponSection = new WeaponSection(Character.Equipment);
+            _weaponSection.Render();
             contentList.Add(VerticalLine());
-            contentList.Add(_weaponSection.GetRenderable());
+            contentList.Add(_weaponSection.Renderable);
         }
         return new Columns(contentList);
+    }
+
+    public override void Select(bool value)
+    {
+        _selected = value;
+        _weaponSection.Select(value);
     }
 }

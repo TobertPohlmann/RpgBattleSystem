@@ -10,7 +10,7 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        AnsiConsole.Markup("[underline red]Hello[/] World!");
+//        AnsiConsole.Markup("[underline red]Hello[/] World!");
 
         Character hans = new("Hans");
         hans.Equipment.Weapon1 = new Kurzschwert();
@@ -29,14 +29,21 @@ public static class Program
 
         Battle battle = new Battle(heros,enemies);
 
+        var heroLayout = new PartyLayout("heros", heros);
+        heroLayout.UpdateLayout(SubPanelType.Standard);
+
+        CharacterPanel cPanel = new CharacterPanel(hans);
+        //AnsiConsole.Write(cPanel.GetSubPanelFor(SubPanelType.Standard));
+
+        //AnsiConsole.Write(heroLayout.Layout);
+
         BattleScreen battleScreen = new BattleScreen(battle);
-        
+
         battleScreen.Draw();
 
-        CharacterStandardPanel standardPanel = new(hans);
-        CharacterStatPanel statPanel = new(hans);
-        //healthPanel.Draw();
+        //CharacterStandardPanel standardPanel = new(hans);
+        //CharacterStatPanel statPanel = new(hans);
+        //standardPanel.Draw();
         //basePanel.Draw();
-
     }
 }

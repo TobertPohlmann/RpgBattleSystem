@@ -1,6 +1,7 @@
 using ConsoleView.BattleScreen;
 using RpgBattleSystem.BattleSystem.BattleProceedings;
 using RpgBattleSystem.Characters;
+using Spectre.Console;
 
 namespace GameController;
 
@@ -13,17 +14,21 @@ public class BattleController
     {
         _battle = new Battle(heroParty,enemyParty);
         _screen = new BattleScreen(_battle);
-        _screen.Draw();
     }
 
     public void Start()
     {
-        GetTurnInput(_battle.HeroParty[0]);
+        AnsiConsole.Live(_screen.Renderable)
+            .Start(ctx =>
+            {
+                ctx.Refresh();
+                GetTurnInput(_battle.HeroParty[0],ctx);
+            });
     }
 
-    private CharacterTurn GetTurnInput(Character character)
+    private CharacterTurn GetTurnInput(Character character, LiveDisplayContext ctx)
     {
-        var turnInputRequest = new TurnInputRequest(character, _screen);
+        var turnInputRequest = new TurnInputRequest(character, _screen, ctx);
         return turnInputRequest.GetTurnInput();
     }
 

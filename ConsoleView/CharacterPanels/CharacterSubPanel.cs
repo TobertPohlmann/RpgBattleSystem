@@ -8,7 +8,7 @@ namespace ConsoleView.CharacterPanels;
 public abstract class CharacterSubPanel : SelectableElement
 {
     public Panel Renderable;
-    private protected const int Width = 40;
+    private protected const int Width = 30;
     public static int Height = 9;
     private protected Character Character;
 

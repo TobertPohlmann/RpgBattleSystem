@@ -6,7 +6,7 @@ namespace RpgBattleSystem.Skills.Effects;
 public abstract class Effect
 {
     internal Character? User;
-    internal Character? Target;
+    internal List<Character>? Targets;
     public EffectDirection Direction;
 
     public Effect(EffectDirection direction)
@@ -16,17 +16,17 @@ public abstract class Effect
 
     public void Apply()
     {
-        if (Target == null || User == null)
+        if (Targets == null || User == null)
         {
             throw new Exception("Cannot apply effect without target and user being defined.");
         }
-        Character recipient = (Direction == EffectDirection.Target) ? Target : User;
-        ApplyTo(recipient);
+        List<Character> recipients = (Direction == EffectDirection.Target) ? Targets : new List<Character> {User};
+        ApplyTo(recipients);
     }
 
-    public Effect WithTarget(Character target)
+    public Effect WithTargets(List<Character> targets)
     {
-        Target = target;
+        Targets = targets;
         return this;
     }
     
@@ -36,6 +36,6 @@ public abstract class Effect
         return this;
     }
 
-    internal abstract void ApplyTo(Character character);
+    internal abstract void ApplyTo(List<Character> characters);
 
 }

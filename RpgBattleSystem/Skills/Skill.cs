@@ -7,7 +7,7 @@ public class Skill
 {
     public string Name { get; } = "Skill";
     public List<Effect> Effects { get; } = new();
-
+    public TargetScope Scope { get; private set; } = TargetScope.SingleOpponent;
     public Skill(string name)
     {
         Name = name;
@@ -16,6 +16,12 @@ public class Skill
     public Skill WithEffect(Effect effect)
     {
         Effects.Add(effect);
+        return this;
+    }
+
+    public Skill WithScope(TargetScope scope)
+    {
+        Scope = scope;
         return this;
     }
 }
